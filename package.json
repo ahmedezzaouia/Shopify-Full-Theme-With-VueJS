@@ -1,0 +1,19 @@
+{
+  "name": "vue-theme",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@shopify/themekit": "^1.1.8"
+  },
+  "devDependencies": {
+    "gulp": "4.0.2",
+    "gulp-sass": "^4.1.0"
+    
+  }
+}

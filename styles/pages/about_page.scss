@@ -1,0 +1,234 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,500;1,100&display=swap');
+@import url(https://fonts.googleapis.com/css?family=Raleway:400,900,700,600,500,300,200,100,800);
+
+
+@media only screen and (max-width: 990px) {
+
+    .boxs_container {
+        display: flex;
+        flex-direction: column;
+        text-align: center;
+        
+
+        .box_job {
+            width: 100% !important;
+
+        }
+    }
+
+    .world-brands {
+        .box_title {
+            height: auto !important;
+            text-align: center;
+
+            h2 {
+                font-size: 16px;
+            }
+
+            p {
+                font-size: 14px;
+            }
+        }
+
+
+    }
+
+    .team {
+        margin-top: 85px;
+
+    }
+
+}
+
+body {
+    padding: 0px;
+    margin: 0px;
+
+}
+
+.big_image {
+    margin: 30px auto;
+    height: 449px;
+    width: 96%;
+
+    background-color: aqua;
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+    background: url('https://cdn.pixabay.com/photo/2015/11/07/11/46/fashion-1031469_1280.jpg');
+
+    .text_container {
+        margin: auto;
+
+        .text-white {
+            color: white;
+            line-height: 0.9;
+
+        }
+    }
+}
+
+.boxs_container {
+
+    width: 100%;
+    margin: auto;
+    margin-bottom: 50px;
+
+    padding: 0px 38px;
+
+
+    .box_job {
+        width: 50%;
+    }
+}
+
+.box_title {
+    font-size: 24px;
+    letter-spacing: -0.72px;
+    line-height: 26.4px;
+    color: #333333;
+    font-family: Poppins, sans-serif;
+}
+
+.box_description {
+    font-size: 16px;
+    line-height: 26.4px;
+    color: #777777;
+
+
+}
+
+.who_we_are {
+    // background-color: coral;
+    margin: auto;
+    width: 92%;
+    text-align: center;
+
+    .image_container {
+        width: 100%;
+
+        img {
+            width: 100%;
+        }
+
+    }
+
+}
+
+.top-spacing {
+    margin-top: 30px;
+}
+
+.world-brands {
+    margin-top: 30px;
+    height: 430px;
+    // text-align: center;
+    // background-color: bisque;
+    text-align: left;
+
+    .box_title {
+        // background-color: aquamarine;
+        height: 70%;
+        margin: auto;
+        padding: 10px;
+
+
+
+
+    }
+
+    .box_brands {
+        height: 70%;
+        margin: auto;
+        // background-color: chocolate;
+
+        .row {
+
+            height: 33.33%;
+
+            .brand-item {
+                // background-color: aqua;
+                // border: 1px solid black;
+
+                text-align: center;
+                padding: 15px;
+            }
+        }
+
+    }
+}
+
+// our team
+
+.text-center {
+    text-align: center;
+    margin: auto;
+}
+
+h2 {
+    color: #4C4C4C;
+    word-spacing: 5px;
+    font-size: 30px;
+    font-weight: 700;
+    margin-bottom: 30px;
+    font-family: 'Raleway', sans-serif;
+}
+
+.ion-minus {
+    padding: 0px 10px;
+}
+
+.team {
+    font-family: 'Raleway', sans-serif;
+    background-color: #f6f6f6;
+    padding: 60px 0px;
+}
+
+.team h4 {
+    margin-top: 20px;
+    color: #5db4c0;
+}
+
+.team .fa {
+    color: #5db4c0;
+    font-size: 18px;
+    margin-top: 10px;
+    padding: 5px;
+}
+
+// customer reviews 
+.carousel {
+    margin-top: 50px;
+    // background-color: green;
+    height: 460px;
+
+    button {
+        width: 3%;
+    }
+
+    .carousel-control-prev-icon,
+    .carousel-control-next-icon {
+        background-color: #333333;
+        color: #333333;
+
+    }
+
+    .carousel-item {
+        text-align: center;
+
+        img {
+            margin: auto;
+            border-radius: 50%;
+            width: 70px !important;
+            height: 70px;
+        }
+
+
+
+        h5 {
+            font-family: Poppins, sans-serif;
+            font-size: 15px;
+            font-weight: 600;
+        }
+    }
+}
