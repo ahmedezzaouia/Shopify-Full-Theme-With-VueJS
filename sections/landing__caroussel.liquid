@@ -1,0 +1,107 @@
+carousel
+<div class="carousel slide" data-bs-ride="carousel" id="carouselExampleIndicators">
+    <div class="carousel-indicators">
+        <button aria-current="true" aria-label="Slide 1" class="active" data-bs-slide-to="0" data-bs-target="#carouselExampleIndicators" type="button"></button>
+        <button aria-label="Slide 2" data-bs-slide-to="1" data-bs-target="#carouselExampleIndicators" type="button"></button>
+        <button aria-label="Slide 3" data-bs-slide-to="2" data-bs-target="#carouselExampleIndicators" type="button"></button>
+    </div>
+    <div class="carousel-inner">
+
+        {% for review in section.blocks %}
+            {% assign active = '' %}
+            {% if forloop.first == true %}
+                {% assign active = 'active' %}
+            {% endif %}
+            <div class="carousel-item {{active}}">
+                <div class="container carousel-container">
+                    <div class="row">
+                        <div class="col-lg-4 col-md-4 ">
+                            <img src={{review.settings.carousel_image | img_url:'500x500' }} alt="" srcset="">
+                        </div>
+                        <div class="col-lg-8 col-md-8 carousel_box">
+                            <h1>{{review.settings.title}}</h1>
+                            <p>{{review.settings.description}}</p>
+                            <h5>NET REYNOLDS</h5>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+
+    </div>
+    <button class="carousel-control-prev" data-bs-slide="prev" data-bs-target="#carouselExampleIndicators" type="button">
+        <span aria-hidden="true" class="carousel-control-prev-icon"></span>
+        <span class="visually-hidden">Previous</span>
+    </button>
+    <button class="carousel-control-next" data-bs-slide="next" data-bs-target="#carouselExampleIndicators" type="button">
+        <span aria-hidden="true" class="carousel-control-next-icon"></span>
+        <span class="visually-hidden">Next</span>
+    </button>
+</div>
+
+
+{% schema %}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+{
+"name": "Carousel",
+"settings": [],
+"blocks": [
+{
+"name": "carousel item",
+"type": "caroussel",
+"settings": [
+{
+"type": "image_picker",
+"id": "carousel_image",
+"label": "image"
+}, {
+"type": "text",
+"id": "title",
+"label": "title",
+"default": "Client Reviews"
+}, {
+"type": "text",
+"id": "description",
+"label": "description",
+"default": "I have known and worked closely with Rick and Liza Looser, and the fine folks at The Agency, for almost two
+decades and feel fully confident in expressing my endorsement. There is not a finer, more dedicated group of people
+offering marketing communications and public affairs capabilities and services. I first met Rick and Liza when I managed
+earned and paid media relations for Litton Industries, now Northrop Grumman Corporation."
+}
+]
+}
+]
+}
+
+
+
+
+
+{% endschema %}
+
+{% stylesheet %}
+
+.carousel-item {
+    color: black;
+}
+
+{% endstylesheet %}
+
+{% javascript %}
+{% endjavascript %}

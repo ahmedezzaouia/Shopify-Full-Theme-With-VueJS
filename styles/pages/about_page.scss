@@ -8,7 +8,7 @@
         display: flex;
         flex-direction: column;
         text-align: center;
-        
+
 
         .box_job {
             width: 100% !important;
@@ -215,6 +215,7 @@ h2 {
 
     .carousel-item {
         text-align: center;
+        background-color: white;
 
         img {
             margin: auto;
@@ -223,6 +224,10 @@ h2 {
             height: 70px;
         }
 
+        .box_description {
+            padding: 0px 9rem;
+
+        }
 
 
         h5 {

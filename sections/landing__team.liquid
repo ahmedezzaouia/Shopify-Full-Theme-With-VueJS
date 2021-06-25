@@ -1,0 +1,71 @@
+
+<div id="team">
+    <div class="container team-container">
+        <div class="container">
+            <div class="box-title">
+                <h1>Our Creative Team</h1>
+                <p>Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla
+                    pariatur.
+                    Excepteur sint occaecat cupidatat non proident</p>
+            </div>
+        </div>
+
+        <div class="row">
+            {% for person in section.blocks %}
+            {% assign col = 4 %}
+            {% if section.blocks.size>3 %}
+            {% assign col = 3%}
+            {% endif %}
+            <div class="col-lg-{{col}} col-md-6 team__col">
+                <div>
+                    <img src={{person.settings.team_image | img_url:'500x500' }}>
+                </div>
+                <div class="team__card-text">
+                    <h4>{{person.settings.card_big-title}}</h4>
+                    <h6>{{person.settings.card_sm-title}}</h6>
+                    <p>{{person.settings.card_description}}</p>
+                </div>
+            </div>
+            {% endfor %}
+            
+        </div>
+</div>
+
+
+{% schema %}
+
+{
+    "name": "Team",
+    "settings": [],
+    "blocks": [
+        {
+            "name": "Team",
+            "type": "quote",
+            "settings": [
+                {
+                    "type": "image_picker",
+                    "id": "team_image",
+                    "label": "image"
+                }, {
+                    "type": "text",
+                    "id": "card_big-title",
+                    "label": "big title",
+                    "default": "JEFFREY BROWN"
+                }, {
+                    "type": "text",
+                    "id": "card_sm-title",
+                    "label": "small title",
+                    "default": "creative leader"
+                }, {
+                    "type": "text",
+                    "id": "card_description",
+                    "label": "description",
+                    "default": "Adipiscing elit, sed do eiusmod tempor incididunt ut labore"
+                }
+            ]
+        }
+    ]
+}
+
+{% endschema %}
+

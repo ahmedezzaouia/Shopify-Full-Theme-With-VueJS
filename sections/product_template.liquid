@@ -1,0 +1,12 @@
+<div>
+
+</div>
+{% unless product == empty %}
+<script type="application/json" id="product_play-{{1}}">
+    {
+        {
+            product | json
+        }
+    }
+</script>
+{% endunless %}

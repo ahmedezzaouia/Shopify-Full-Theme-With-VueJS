@@ -1,18 +1,86 @@
-{% paginate collection.products by 2 %}
-  <h1>{{ collection.title }}</h1>
-  {% for product in collection.products %}
-    <div>
-      <a href="{{ product.url | within: collection }}">{{ product.title }}</a>
-      {{ product.price | money }}
-      {% unless product.available %}<br><strong>sold out</strong>{% endunless %}
-      <a href="{{ product.url | within: collection }}">
-        <img src="{{ product.featured_image.src | img_url: 'large' }}" alt="{{ product.featured_image.alt | escape }}">
-      </a>
+<div id="products">
+  {% paginate collection.products by 10 %}
+  <h1 class='colection-title'>All Products</h1>
+
+
+  <div class="row">
+    {%for item in collection.products %}
+
+    <div class="card top-space col-3" style="width: 18rem;">
+      <img class="card-img-top" src={{item.featured_image | img_url: '500x500'}} alt="Card image cap">
+      <div class="card-body">
+        <h5 class="card-title">{{item.title}}</h5>
+        <h6>{{item.price | money}}</h6>
+        <div class="row">
+          <button class="col-12" v-on:click='buy_now({{item.first_available_variant.id}})'>
+            <a>Buy Now</a>
+          </button>
+          <button class="col-12 top-space" v-on:click='addToCard({{item.first_available_variant.id}})'>
+            <a>Add to Card</a>
+          </button>
+        </div>
+
+      </div>
     </div>
-  {% else %}
-    <p>no matches</p>
-  {% endfor %}
+
+    {% endfor %}
+
+  </div>
+
+
   {% if paginate.pages > 1 %}
+  <div class="paginate">
     {{ paginate | default_pagination }}
+  </div>
   {% endif %}
-{% endpaginate %}
+  {% endpaginate %}
+
+</div>
+
+
+<script>
+  const products = {
+    name: 'All Products',
+    data() {
+      return {
+
+      }
+    },
+    methods: {
+      buy_now(id) {
+        window.location = `https://full-vuejs-theme.myshopify.com/cart/${id}:1?checkout`;
+        console.log(id);
+      },
+      addToCard(id) {
+        console.log(id);
+        $.post('/cart/add.js', {
+          items: [{
+            "quantity": 1,
+            "id": id
+          }, ]
+        }).then((_) => {
+          window.location.pathname = '/cart'
+
+        })
+      }
+    }
+  }
+  Vue.createApp(products).mount('#products')
+</script>
+
+
+<style>
+  .row {
+    padding: 0px 36px;
+  }
+
+  .colection-title {
+    text-align: center;
+    padding: 56px;
+  }
+
+  .paginate {
+    padding: 18px;
+    text-align: center;
+  }
+</style>

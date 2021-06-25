@@ -1,0 +1,24 @@
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <div class="container-fluid">
+        <button aria-controls="navbarTogglerDemo01" aria-expanded="false" aria-label="Toggle navigation" class="navbar-toggler" data-bs-target="#navbarTogglerDemo01" data-bs-toggle="collapse" type="button">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarTogglerDemo01">
+            <a class="navbar-brand" href="#">Vue Ecommerce</a>
+
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+
+                {% for link in linklists.main-menu.links %}
+                    <li class="nav-item">
+                        <a class="nav-link" href={{link.url}}>{{link.title}}</a>
+                    </li>
+                {% endfor %}
+            </ul>
+
+            <form class="d-flex">
+                <input aria-label="Search" class="form-control me-2" placeholder="Search" type="search">
+                <button class="btn btn-outline-success" type="submit">Search</button>
+            </form>
+        </div>
+    </div>
+</nav>

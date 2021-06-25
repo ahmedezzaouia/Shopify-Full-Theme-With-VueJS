@@ -1,0 +1,47 @@
+{% assign collection =collections[section.settings.collection] %}
+{% paginate collection.products by 5 %}
+<div class="flexboox">
+    {% for myProduct in collection.products %}
+
+    <div class="card" style="width: 18rem;">
+        <img src={{myProduct.featured_image | img_url: '500x500'}} class="card-img-top">
+        <div class="card-body">
+            <h5 class="card-title">{{section.settings.collection}}</h5>
+            <!-- <p class="card-text">{{myProduct.description}}</p> -->
+            <a class="btn btn-primary" href={{ myProduct.url }}>Go somewhere</a>
+        </div>
+    </div>
+
+
+    {% endfor %}
+</div>
+<div class="pagination">
+    {{ paginate | default_pagination }}
+
+</div>
+
+{% endpaginate %}
+
+
+<style>
+    .pagination {
+        padding: 20px;
+        text-align: center;
+        margin: auto;
+
+        display: block;
+        width: 30%;
+    }
+</style>
+{% schema %}
+{
+"name": "product picker",
+"settings": [
+{
+"type": "collection",
+"id":"collection",
+"label":"Choose collection"
+}
+]
+}
+{% endschema %}

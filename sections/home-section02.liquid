@@ -1,0 +1,81 @@
+<div id="home">
+    <section class="product-list">
+
+        <h1 class="title">Our Products List</h1>
+
+        {% assign collection = collections['collection-01'] %}
+
+
+
+        <div class="row">
+            {%for item in collection.products %}
+
+            <div class="card top-space col-3" style="width: 18rem;">
+                <img class="card-img-top" src={{item.featured_image | img_url: '500x500'}} alt="Card image cap">
+                <div class="card-body">
+                    <h5 class="card-title">{{item.title}}</h5>
+                    <h6>{{item.price | money}}</h6>
+                    <div class="row">
+                        <button class="col-12" v-on:click='buy_now({{item.first_available_variant.id}})'>
+                            <a>Buy Now</a>
+                        </button>
+                        <button class="col-12 top-space" v-on:click='addToCard({{item.first_available_variant.id}})'>
+                            <a>Add to Card</a>
+                        </button>
+                    </div>
+
+                </div>
+            </div>
+
+            {% endfor %}
+
+        </div>
+
+</div>
+
+<script>
+    const home = {
+        name: 'home page',
+
+        methods: {
+            buy_now(id) {
+                window.location = `https://full-vuejs-theme.myshopify.com/cart/${id}:1?checkout`;
+                console.log(id);
+            },
+            addToCard(id) {
+                console.log(id);
+                $.post('/cart/add.js', {
+                    items: [{
+                        "quantity": 1,
+                        "id": id
+                    }, ]
+                }).then((_) => {
+                    window.location.pathname = '/cart'
+
+                })
+            }
+        }
+    }
+    Vue.createApp(home).mount('#home')
+</script>
+
+
+</section>
+{% schema %}
+{
+"presets": [
+{
+"category": "Custom Content",
+"name": "Product List"
+
+}
+]
+}
+{% endschema %}
+
+<script>
+    document.querySelector('.buy_now-global').addEventListener('click', (e) => {
+        console.log('hello');
+
+    })
+</script>

@@ -1,46 +1,269 @@
-{% if cart.item_count > 0 %}
-  <h1>cart</h1>
-  <form action="/cart" method="post" novalidate>
-    <table>
+<div id='cart_page'>
+
+
+  <div class="big_header">
+    <div class="row text-container">
+      <div class="page-title col-6">
+        <h2>Wishlist</h2>
+      </div>
+      <div class="page-pathname col-6">
+        <h3>HOME</h3>
+        <h3 class="pathname-text"> / WISHLIST</h3>
+      </div>
+    </div>
+  </div>
+
+
+  <!-- the products of the cart  -->
+  <div class="cart">
+    <table class="cart-table">
       <thead>
-        <th colspan="2">Prod</th>
-        <th>Price</th>
-        <th>Qty</th>
-        <th>total</th>
+        <tr class="bg-grey cart-header">
+          <th></th>
+          <th class="product-name">Products</th>
+          <th class="product-price">price</th>
+          <th>Quantity</th>
+          <th>Total</th>
+          <th>remove</th>
+        </tr>
       </thead>
-      <tbody>
-        {% for item in cart.items %}
-          <tr>
-            <td>
-              <a href="{{ item.url | within: collections.all }}">
-                <img src="{{ item | img_url: 'medium' }}" alt="{{ item.title | escape }}">
+      <tbody class="cart-body">
+
+        <template v-if='cart.items.length >0'>
+          <tr v-for='item in cart.items' :key='item.id'>
+            <td class="product-img">
+              <a href="#">
+                <img :src='item.image' alt="">
               </a>
             </td>
-            <td>
-              <a href="{{ item.url }}">{{ item.product.title }}</a>
-              {{ item.variant.title }}
-              <a href="/cart/change?line={{ forloop.index }}&amp;quantity=0">remove</a>
+            <td class="product-name">
+              <a href="#" v-html='item.product_title'></a>
             </td>
-            <td>{{ item.price | money }}</td>
-            <td>
-              <input type="number" name="updates[]" id="updates_{{ item.key }}" value="{{ item.quantity }}" min="0">
+            <td class="product-price">${(Number(item.price) * 0.01).toFixed(2) } ${cart.currency}</td>
+            <td class="product-quantity">
+              <div class="input-group">
+                <input v-on:click='updateCart($event,item.variant_id)' data-action="decrement" type="button" value="-"
+                  class="button-minus" data-field="quantity">
+                <input type="number" step="1" :value="item.quantity" name="quantity" class="quantity-field">
+                <input v-on:click='updateCart($event,item.variant_id)' data-action="increment" type="button" value="+"
+                  class="button-plus" data-field="quantity">
+              </div>
             </td>
-            <td>
-              {% if item.original_line_price != item.line_price %}{{ item.original_line_price | money }}{% endif %}
-              {{ item.line_price | money }}
-              {% for discount in item.discounts %}{{ discount.title }}{% endfor %}
-            </td>
+            <td class="product-total">${(Number(item.line_price)*0.01).toFixed(2)} ${cart.currency}</td>
+            <td v-on:click='removeItem(item.variant_id)'><i class="fas fa-trash-alt"></i></td>
           </tr>
-        {% endfor %}
+        </template>
+
+
       </tbody>
+
     </table>
-    <div>
-      <p>sub total : {{ cart.total_price | money }}</p>
-      <button type="submit" name="update">Update</button>
-      <button type="submit" name="checkout">Checkout</button>
+
+
+  </div>
+
+
+
+  <!-- cart buttom area: checkout & discount -->
+
+  <div class="cart-buttom-area">
+    <div class="row buttons_container">
+      <div class="col-6"><button> <i class="fal fa-arrow-left"></i> Continue Shoppping</button></div>
+      <div class="col-6">
+        <button v-on:click='updateAllItems'>Update Cart</button>
+      </div>
     </div>
-  </form>
-{% else %}
-  <h2>cart</h2>
-  Cart is empty
-{% endif %}
+    <div class="row">
+      <div class="discount-box col-12 col-lg-6 ">
+        <div>
+          <h6 class="top-spacing">Coupon Discount</h6>
+          <p class="top-spacing">Enter your coupon code if you have one.</p>
+          <input class="top-spacing" type="text" name="discount" id="dicount-code" placeholder="Coupon Code">
+          <button class="top-spacing">Aply Coupon</button>
+        </div>
+      </div>
+      <div class="checkout-box col-12 col-lg-6">
+        <div>
+          <div class="total-wrapper top-spacing">
+            <div class="subtotal row">
+              <h6 class="col-6">SubTotal</h6>
+              <h6 class="col-6" v-html='total_price'></h6>
+            </div>
+            <div class="divider"></div>
+            <div class="total row">
+              <h6 class="col-6">Total</h6>
+              <h6 class="col-6" v-html='total_price'></h6>
+            </div>
+          </div>
+          <button class="top-spacing" v-on:click='checkout'><a href="#">Procced to checkout</a></button>
+        </div>
+      </div>
+
+    </div>
+  </div>
+  <!-- othere products you might like -->
+
+  <div class="upsell_products">
+    <h3>Products you might also like </h3>
+    <div class="row products-container">
+      {% assign collection_01 = collections['collection-01'] %}
+      {%- for product in collection_01.products -%}
+      <div class="col-md-3 col-sm-6">
+        <div class="product-grid">
+          <div class="product-image">
+            <a href="#" class="image">
+              <img class="pic-1" src={{product.featured_image | img_url: '500x500'}}>
+            </a>
+            <ul class="product-links">
+              <li><a href="#" data-tip="Add to Wishlist"><i class="fas fa-heart"></i></a></li>
+              <li><a href="#" data-tip="Compare"><i class="fa fa-random"></i></a></li>
+              <li><a href="#" data-tip="Quick View"><i class="fa fa-search"></i></a></li>
+            </ul>
+          </div>
+          <div class="product-content">
+
+            <h3 class="title"><a href="#">{{product.title}}</a></h3>
+            <div class="price">{{product.price | money}}</div>
+            <a v-on:click="addToCart($event,{{product.selected_or_first_available_variant.id}})" class="add-to-cart"
+              href="#">add
+              to cart</a>
+          </div>
+        </div>
+      </div>
+      {%- endfor -%}
+
+    </div>
+  </div>
+
+</div>
+
+<script>
+  const CartObject = {
+    name: 'Cart Page',
+
+    data() {
+      return {
+        total_price: "{{cart.total_price | money_without_currency}} MAD",
+        subTotal_price: '',
+        cart: {
+          items: []
+        }
+      };
+    },
+    delimiters: ['${', '}'],
+
+    created() {
+      console.log('created trigger ');
+      $.get('/cart.js').then((result) => {
+        this.cart = JSON.parse(result);
+      });
+      // this.clearCart();
+    },
+    computed: {
+
+    },
+    // ********* all methods  ********
+    methods: {
+      checkout() {
+        const host = window.location.host
+        this.updateAllItems();
+        window.location = `https://${host}/checkout`
+
+
+
+
+      },
+      updateAllItems() {
+        console.log('update car quantity');
+        const updates = {}
+        this.cart.items.forEach(el => {
+          updates[el.variant_id] = el.quantity
+        });
+
+        $.post('/cart/update.js', {
+          updates
+        }).then((result) => {
+          this.cart = JSON.parse(result)
+        })
+      },
+      removeItem(variant_id) {
+        console.log('remove item trigger', variant_id);
+        $.post('/cart/update.js', `updates[${variant_id}]=${0}`).then((result) => {
+          this.cart = JSON.parse(result)
+          // //update total price 
+          this.updateTotalsPrices()
+        })
+
+      },
+      updateTotalsPrices() {
+        console.log('update price run');
+        const total = this.cart.items.reduce((acc, cur) => {
+          return acc + cur.line_price
+        }, 0)
+
+        this.total_price = `${(total*0.01).toFixed(2)} ${this.cart.currency}`
+      },
+      addToCart(event, variant_id) {
+        console.log('add item trigger ');
+
+        event.preventDefault()
+
+        const isExist = this.cart.items.some((el) => {
+          console.log(JSON.parse(JSON.stringify(el)));
+          return JSON.parse(JSON.stringify(el)).variant_id === variant_id
+        })
+
+        if (!isExist) {
+          jQuery.post('/cart/add.js', {
+            items: [{
+              "quantity": 1,
+              "id": variant_id
+            }, ]
+          }).then((result) => {
+            const newCart = JSON.parse(result);
+            this.cart.items.push(newCart.items[0]);
+            this.updateTotalsPrices();
+          })
+          //update total price 
+
+        }
+
+
+      },
+      updateCart(event, variant_id) {
+        console.dir(event.target)
+        const action = event.target.dataset.action;
+        //find the item with given id 
+        const itemToUpdate = this.cart.items.find((el, index) => {
+          return el.variant_id === variant_id
+        })
+        if (action === 'increment') {
+          // increse quantiy
+          itemToUpdate.quantity += 1
+          // change total price
+          itemToUpdate.line_price = itemToUpdate.price * itemToUpdate.quantity
+
+        }
+        if (action === 'decrement') {
+          // increse quantiy
+          itemToUpdate.quantity > 1 ? itemToUpdate.quantity -= 1 : null;
+          // change total price
+          itemToUpdate.line_price = itemToUpdate.price * itemToUpdate.quantity
+
+        }
+
+        this.updateTotalsPrices();
+      },
+      clearCart() {
+        jQuery.post('/cart/clear.js');
+      }
+
+
+    }
+
+
+  }
+
+
+  Vue.createApp(CartObject).mount('#cart_page')
+</script>
