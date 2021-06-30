@@ -1,0 +1,127 @@
+.wrapper {
+
+    background: url('https://images.unsplash.com/photo-1502639625928-9e0198ae7dfb?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=889&q=80');
+    height: 100vh;
+    // width: 100vw;
+    // position: fixed;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: cover;
+    color: white;
+
+    .login_register {
+        width: 32vw;
+        // height: 60vh;
+        background-color: #0e1013;
+        padding: 15px;
+        display: flex;
+        flex-direction: column;
+        padding: 36px 26px;
+
+        .login-title {
+            text-align: center;
+            font-size: 36px;
+            line-height: 24px;
+            margin-bottom: 36px;
+        }
+
+        .input-wrapp {
+            background: #232a31;
+            display: flex;
+            flex-direction: row;
+            margin: 10px 0px;
+
+            i {
+
+                font-size: 22px;
+                padding: 10px;
+                margin: auto;
+                opacity: 0.6;
+
+            }
+
+            input {
+                font-size: 16px;
+                padding: 17px 5px;
+                border: none;
+                background: #232a31;
+                width: 100%;
+                color: white;
+
+                &:focus {
+                    outline: none;
+                }
+
+            }
+
+        }
+
+        .sign-button {
+            background-color: #a21c29;
+            border: none;
+            // padding: 17px 5px;
+            font-size: 16px;
+            margin-top: 20px;
+            width: 100%;
+            color: white;
+
+        }
+
+        .remember-forgot {
+            margin-top: 14px;
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            justify-content: space-between;
+            margin-top: 20px;
+
+            .remember-me {
+                display: flex;
+                flex-direction: row;
+                align-items: center;
+
+                p {
+                    margin: auto;
+                    padding-left: 8px;
+                }
+            }
+
+            a {
+                text-decoration: none;
+                color: white;
+            }
+        }
+
+        .sign-up {
+            text-align: center;
+            font-size: 14px;
+            margin-top: 20px;
+
+
+            a {
+                font-size: 16px;
+                text-decoration: none;
+            }
+        }
+
+
+    }
+}
+
+@media screen and (max-width: 790px) {
+    .wrapper .login_register {
+        width: 61vw;
+    }
+
+}
+
+@media screen and (max-width: 420px) {
+    .wrapper .login_register {
+        width: 90vw;
+    }
+
+}

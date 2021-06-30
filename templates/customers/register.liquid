@@ -1,1 +1,40 @@
-<!-- /templates/customers/register.liquid -->
+<div class="wrapper">
+    <div class="login_register">
+        <h1 class="login-title">Register</h1>
+
+        {% form 'create_customer' %}
+            {{ form.errors | default_errors }}
+
+            <div class="input-wrapp">
+                <i class="fas fa-user-alt"></i>
+                <input name="customer[first_name]" placeholder="First Name" type="text">
+            </div>
+            <div class="input-wrapp">
+                <i class="fas fa-user-alt"></i>
+                <input name="customer[last_name]" placeholder="Last Name" type="text">
+            </div>
+            <div class="input-wrapp">
+                <i class="fas fa-envelope"></i>
+                <input name="customer[email]" placeholder="Email Adress" type="email">
+            </div>
+            <div class="input-wrapp">
+                <i class="fas fa-lock"></i>
+                <input name="customer[password]" placeholder="Password" type="password">
+            </div>
+
+            <button class="sign-button" type="submit" value="Create">Sign up</button>
+
+        {% endform %}
+
+        <div class="remember-forgot">
+            <div class="remember-me">
+                <input id="user_remember" name="remember" type="checkbox">
+                <p>Remember Me</p>
+            </div>
+
+        </div>
+        <h6 class="sign-up">Do you Have an Account?
+            <a href="/account/login">Sign in</a>
+        </h6>
+    </div>
+</div>

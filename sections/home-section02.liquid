@@ -7,10 +7,10 @@
 
 
 
-        <div class="row">
+        <div class="products-items row">
             {%for item in collection.products %}
 
-            <div class="card top-space col-3" style="width: 18rem;">
+            <div class="card top-space">
                 <img class="card-img-top" src={{item.featured_image | img_url: '500x500'}} alt="Card image cap">
                 <div class="card-body">
                     <h5 class="card-title">{{item.title}}</h5>
@@ -30,27 +30,115 @@
             {% endfor %}
 
         </div>
+        <!-- overlay -->
+        <div class="overlay-background" v-on:click="close_miniCart"></div>
+
+        <!-- mini cart -->
+        <div class="mini-cart-modal" id="mini-cart">
+
+            <div class="mini_cart-items">
+
+                <div v-if="cart.items.length >0">
+                    <div :key="item.id" v-for="item in cart.items">
+                        <div class="mini_cart-item">
+                            <div class="image-wrapper">
+                                <img :src="item.image" alt="">
+                            </div>
+                            <div class="row">
+                                <div class="item-details col-10">
+                                    <div class="pdt-title">
+                                        <h6 v-text="item.product_title"></h6>
+                                    </div>
+                                    <p><span v-text='item.quantity '></span> * <span v-text='Number(item.price*0.01).toFixed(2)'></span></p>
+
+                                </div>
+                                <div class="remove col-2" v-on:click="removeItem(item.variant_id)">
+                                    <i class="fas fa-times"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+                <template v-else>
+                    <div class="empty-cart">
+                        <h3>Add Products to Cart</h3>
+                    </div>
+
+                </template>
+
+            </div>
+            <div class="min-cart_checkout">
+                <h6 v-if="cart.items.length >0" v-text='Number(totalPrice*0.01).toFixed(2)'></h6>
+
+                <button class="checkout-button"><a href="/cart">Cart</a></button>
+                <button class="checkout-button">
+                    <a href="/checkout">Checkout</a>
+                </button>
+            </div>
+
+        </div>
+        <!-- mini cart end  -->
 
 </div>
 
 <script>
     const home = {
         name: 'home page',
-
+        data() {
+            return {
+                totalPrice: '',
+                cart: {
+                    items: []
+                }
+            }
+        },
+        created() {
+            $.get('/cart.js').then((res) => {
+                this.cart = JSON.parse(res)
+                this.totalPrice = this.cart.total_price
+                console.log(JSON.parse(res));
+            })
+        },
+        computed() {
+            return {
+                calcPrice() {
+                    return `${Number(this.totalPrice).toFixed(2)*0.01} ${cart.currency}`;
+                },
+                
+            }
+        },
         methods: {
+            formatPrice(price){
+                return `${Number(price).toFixed(2)*0.01} ${this.cart.currency}`
+            },
+            close_miniCart() {
+                document.getElementById('mini-cart').classList.remove('active')
+                document.querySelector('.overlay-background').classList.remove('active')
+            },
             buy_now(id) {
                 window.location = `https://full-vuejs-theme.myshopify.com/cart/${id}:1?checkout`;
                 console.log(id);
             },
+            removeItem(variant_id) {
+
+                $.post('/cart/update.js', `updates[${variant_id}]=${0}`).then((result) => {
+                    this.cart = JSON.parse(result)
+                    this.totalPrice = this.cart.total_price
+
+                })
+
+            },
             addToCard(id) {
-                console.log(id);
                 $.post('/cart/add.js', {
                     items: [{
                         "quantity": 1,
                         "id": id
                     }, ]
-                }).then((_) => {
-                    window.location.pathname = '/cart'
+                }).then((res) => {
+                    this.cart.items.push(JSON.parse(res).items[0])
+                    document.getElementById('mini-cart').classList.add('active')
+                    document.querySelector('.overlay-background').classList.add('active')
 
                 })
             }
@@ -62,20 +150,19 @@
 
 </section>
 {% schema %}
-{
-"presets": [
-{
-"category": "Custom Content",
-"name": "Product List"
 
+{
+    "presets": [
+        {
+            "category": "Custom Content",
+            "name": "Product List"
+        }
+    ]
 }
-]
-}
+
 {% endschema %}
 
-<script>
-    document.querySelector('.buy_now-global').addEventListener('click', (e) => {
-        console.log('hello');
-
-    })
-</script>
+<style>
+   .pdt-title{padding: 0;}
+    p{text-align: center;}
+</style>

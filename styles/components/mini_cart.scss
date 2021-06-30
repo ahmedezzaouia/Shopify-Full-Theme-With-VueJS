@@ -1,0 +1,111 @@
+// ************************** mini cart *****************
+
+.overlay-background {
+    opacity: 0;
+    visibility: hidden;
+    background-color: grey;
+    height: 100vh;
+    width: 100vw;
+    position: fixed;
+    top: 0;
+    cursor: pointer;
+
+}
+
+.mini-cart-modal {
+    opacity: 0;
+    right: -300px;
+    visibility: hidden;
+    background-color: white;
+    height: 100vh;
+    width: 25vw;
+    position: fixed;
+    top: 0;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    transition: all 0.3s ease;
+
+    .mini_cart-items {
+        display: flex;
+        flex-direction: column;
+        width: 100%;
+
+        .mini_cart-item {
+            width: 100%;
+            display: flex;
+            flex-direction: row;
+            border: grey solid 1px;
+
+            padding: 6px;
+
+            .image-wrapper {
+                width: 100px;
+
+                img {
+                    width: 100%;
+                    height: 100%;
+
+                    border-radius: 10%;
+                }
+            }
+
+            .item-details {
+                padding-left: 10px;
+
+                p {
+                    font-weight: 600;
+                }
+            }
+
+            .remove {
+                i {
+                    cursor: pointer;
+                    font-size: 22px;
+                }
+
+                // padding: 37px 0px;
+            }
+        }
+    }
+
+
+    .min-cart_checkout {
+        background-color: grey;
+        opacity: 0.6;
+        padding: 53px;
+        text-align: center;
+
+        .checkout-button {
+            padding: 8px 22px;
+            background-color: aqua;
+            margin: 5px
+        }
+
+        a {
+            text-decoration: none;
+            color: black;
+        }
+
+
+    }
+
+    .empty-cart {
+        text-align: center;
+        padding: 235px 50px;
+
+    }
+}
+
+.mini-cart-modal.active {
+    opacity: 1;
+    visibility: visible;
+    right: 0;
+}
+
+.overlay-background.active {
+    opacity: 0.7;
+    visibility: visible;
+    right: 0;
+}

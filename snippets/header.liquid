@@ -13,6 +13,20 @@
                         <a class="nav-link" href={{link.url}}>{{link.title}}</a>
                     </li>
                 {% endfor %}
+                <li class="nav-item account-icon">
+                    {% if shop.customer_accounts_enabled %}
+                        {% if customer  %}
+                            <a href="/account">
+                                <i class="fas fa-user-alt"></i>
+                            </a>
+                        {% else %}
+                            <a href="/account/login">
+                                <i class="fas fa-user-alt"></i>
+                            </a>
+                        {% endif %}
+                    {% endif %}
+
+                </li>
             </ul>
 
             <form class="d-flex">
@@ -22,3 +36,11 @@
         </div>
     </div>
 </nav>
+<style>
+
+    .account-icon i {
+       padding: 11px 0px;
+    font-size: 17px;
+    color: #a2a2a2;
+    }
+</style>

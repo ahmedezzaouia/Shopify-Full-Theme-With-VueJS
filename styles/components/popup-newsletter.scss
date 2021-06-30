@@ -1,0 +1,179 @@
+
+.popup-overlay {
+    background-color: grey;
+    width: 100vw;
+    height: 100vh;
+    visibility: hidden;
+    opacity: 0;
+    cursor: pointer;
+    position: fixed;
+    top: 0;
+}
+
+.popup {
+    width: 52vw;
+    position: fixed;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    display: flex;
+    flex-direction: row;
+    box-shadow: -1px 5px 8px -5px black;
+    visibility: hidden;
+    opacity: 0;
+    transition: all 0.3s ease;
+
+    .birthday-inputs {
+        display: flex;
+        flex-direction: row;
+        justify-content: center;
+        align-items: center;
+
+        span {
+            margin: 0 19px;
+        }
+    }
+
+    .thankyou-message {
+        color: cadetblue;
+        margin-top: 165px;
+    }
+
+    .close-button {
+        position: absolute;
+        z-index: 4;
+        font-size: 23px;
+        right: 0;
+        color: #96938c;
+        top: 0;
+        padding: 10px;
+        cursor: pointer;
+
+    }
+
+    .left {
+
+        width: 50%;
+        border-top-left-radius: 4px;
+        border-bottom-left-radius: 4px;
+
+        img {
+            border-radius: 4px;
+            height: 100%;
+            width: 100%;
+        }
+    }
+
+    .right {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+        width: 50%;
+        text-align: center;
+        padding: 27px;
+        background-color: white;
+        border-top-right-radius: 4px;
+        border-bottom-right-radius: 4px;
+
+        .popup-title {
+            font-size: 24px;
+            letter-spacing: 3px;
+            color: cadetblue;
+        }
+
+        input {
+            width: 100%;
+            margin: 10px 0px;
+            padding: 9px 0px;
+            border: 1px solid cadetblue;
+            border-radius: 6px;
+            padding-left: 10px;
+            opacity: 0.5;
+
+            &:focus {
+                outline: none;
+            }
+        }
+
+        p {
+            color: cadetblue;
+            font-size: 17px;
+            line-height: 21px;
+        }
+
+        .sign-up {
+            border-radius: 20px;
+            width: 100%;
+            border: none;
+            padding: 12px 0px;
+            background-color: cadetblue;
+            color: white;
+            margin-top: 10px;
+            cursor: pointer;
+        }
+    }
+}
+
+// .popup-overlay.active {
+//     visibility: visible;
+//     opacity: 0.6;
+// }
+
+// .popup.active {
+//     visibility: visible;
+//     opacity: 1;
+// }
+
+@media only screen and (max-width: 1130px) {
+    .popup {
+        width: 67vw;
+    }
+}
+
+@media only screen and (max-width: 770px) {
+    .popup {
+        width: 85vw;
+    }
+}
+
+@media only screen and (max-width: 580px) {
+    .popup {
+        width: 85vw;
+        display: block;
+
+        .left {
+            width: 100%;
+            height: 22vh;
+
+            img {
+                height: 110%;
+            }
+        }
+
+        .right {
+            width: auto;
+            // padding: 0 27px;
+
+            .popup-title {
+                font-size: 19px;
+            }
+
+            p {
+                font-size: 14px;
+                line-height: 16px;
+            }
+
+            input {
+                margin: 5px 0px;
+                padding: 9px 0px;
+            }
+
+            .sign-up {
+                margin-bottom: 10px;
+                padding: 11px 0px;
+                margin-top: 7px;
+            }
+        }
+    }
+}

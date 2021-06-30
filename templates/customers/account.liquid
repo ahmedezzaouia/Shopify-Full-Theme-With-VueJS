@@ -1,1 +1,49 @@
-<!-- /templates/customers/account.liquid -->
+<div id="customer_orders">
+    {% paginate customer.orders by 10 %}
+        {% if customer.orders.size != 0 %}
+
+            <!-- Content for account.liquid page -->
+
+        {% else %}
+            <p class="customer-no-orders">You haven't placed any orders yet.</p>
+        {% endif %}
+        {{ paginate | default_pagination }}
+    {% endpaginate %}
+</div>
+<div class="logout-button">
+    {{ 'Log out' | customer_logout_link }}
+</div>
+{% if customer.default_address %}
+    <p>{{ customer.default_address.address1 }}</p>
+    {% if customer.default_address.address2 != "" %}
+        <p>{{ customer.default_address.address2 }}</p>
+    {% endif %}
+    <p>{{ customer.default_address.city}},
+        {% if address.province_code %}
+            {{ customer.default_address.province_code }},
+        {% endif %}
+        {{ customer.default_address.country }}</p>
+    <p>{{ customer.default_address.zip }}</p>
+    <p>{{ customer.default_address.phone }}</p>
+{% endif %}
+
+
+<style>
+    .customer-no-orders {
+        text-align: center;
+        padding: 57px;
+    }
+    .logout-button {
+
+        text-align: center;
+        margin: 10px 10px 50px;
+    }
+    .logout-button a {
+        text-decoration: none;
+        background-color: #4035b4;
+        padding: 10px 20px;
+        color: white;
+        border-radius: 5%;
+        font-size: 17px;
+    }
+</style>

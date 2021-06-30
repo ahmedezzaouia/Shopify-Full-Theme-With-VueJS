@@ -1,65 +1,147 @@
 <div id="products">
-  {% paginate collection.products by 10 %}
-  <h1 class='colection-title'>All Products</h1>
+    {% paginate collection.products by 10 %}
+        <h1 class="colection-title">All Products</h1>
 
 
-  <div class="row">
-    {%for item in collection.products %}
-
-    <div class="card top-space col-3" style="width: 18rem;">
-      <img class="card-img-top" src={{item.featured_image | img_url: '500x500'}} alt="Card image cap">
-      <div class="card-body">
-        <h5 class="card-title">{{item.title}}</h5>
-        <h6>{{item.price | money}}</h6>
         <div class="row">
-          <button class="col-12" v-on:click='buy_now({{item.first_available_variant.id}})'>
-            <a>Buy Now</a>
-          </button>
-          <button class="col-12 top-space" v-on:click='addToCard({{item.first_available_variant.id}})'>
-            <a>Add to Card</a>
-          </button>
+            {%for item in collection.products %}
+
+                <div class="card top-space col-3" style="width: 18rem;">
+                    <img class="card-img-top" src={{item.featured_image | img_url: '500x500'}} alt="Card image cap">
+                    <div class="card-body">
+                        <h5 class="card-title">{{item.title}}</h5>
+                        <h6>{{item.price | money}}</h6>
+                        <div class="row">
+                            <button class="col-12" v-on:click="buy_now({{item.first_available_variant.id}})">
+                                <a>Buy Now</a>
+                            </button>
+                            <button class="col-12 top-space" v-on:click="addToCard({{item.first_available_variant.id}})">
+                                <a>Add to Card</a>
+                            </button>
+                        </div>
+
+                    </div>
+                </div>
+
+            {% endfor %}
+
         </div>
 
-      </div>
+
+        {% if paginate.pages > 1 %}
+            <div class="paginate">
+                {{ paginate | default_pagination }}
+            </div>
+        {% endif %}
+    {% endpaginate %}
+    <!-- overlay -->
+    <div class="overlay-background" v-on:click="close_miniCart"></div>
+
+    <!-- mini cart -->
+    <div class="mini-cart-modal" id="mini-cart">
+
+        <div class="mini_cart-items">
+
+
+            <template v-if="cart.items.length >0">
+                <div :key="item.id" v-for="item in cart.items">
+                    <div class="mini_cart-item">
+                        <div class="image-wrapper">
+                            <img :src="item.image" alt="">
+                        </div>
+                        <div class="row">
+                            <div class="item-details col-10">
+                                <div class="title">
+                                    <h6 v-text="item.product_title"></h6>
+                                </div>
+                                <p>
+                                    <span v-text="item.quantity"></span>
+                                    *
+                                    <span>${(Number(item.price) * 0.01).toFixed(2) } ${cart.currency}</span>
+                                </p>
+
+                            </div>
+                            <div class="remove col-2" v-on:click="removeItem(item.variant_id)">
+                                <i class="fas fa-times"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </template>
+            <template v-else>
+                <div class="empty-cart">
+                    <h3>Add Products to Cart</h3>
+                </div>
+
+            </template>
+
+        </div>
+        <div class="min-cart_checkout">
+            <h6 v-if="cart.items.length >0">Total Price : ${(Number(this.totalPrice)*0.01).toFixed(2)} ${this.cart.currency}</h6>
+
+            <button class="checkout-button">
+                <a href="/cart">Cart</a>
+            </button>
+            <button class="checkout-button">
+                <a href="/checkout">Checkout</a>
+            </button>
+        </div>
+
     </div>
-
-    {% endfor %}
-
-  </div>
-
-
-  {% if paginate.pages > 1 %}
-  <div class="paginate">
-    {{ paginate | default_pagination }}
-  </div>
-  {% endif %}
-  {% endpaginate %}
-
+    <!-- mini cart end  -->
 </div>
 
 
 <script>
   const products = {
     name: 'All Products',
+    delimiters: ['${', '}'],
     data() {
       return {
-
+      totalPrice:'',
+       cart:{
+         items:[]
+       }
       }
     },
+   
+    created(){
+            $.get('/cart.js').then((res) => {
+                this.cart=JSON.parse(res)
+                this.totalPrice =this.cart.total_price
+                console.log(JSON.parse(res));
+            })
+        },
     methods: {
+      removeItem(variant_id) {
+        
+        $.post('/cart/update.js', `updates[${variant_id}]=${0}`).then((result) => {
+          this.cart = JSON.parse(result)
+         this.totalPrice = this.cart.total_price
+       
+        })
+
+      },
+      close_miniCart(){
+        document.getElementById('mini-cart').classList.remove('active')
+        document.querySelector('.overlay-background').classList.remove('active')
+      },
       buy_now(id) {
         window.location = `https://full-vuejs-theme.myshopify.com/cart/${id}:1?checkout`;
         console.log(id);
       },
       addToCard(id) {
-        console.log(id);
+        document.getElementById('mini-cart').classList.add('active')
+        document.querySelector('.overlay-background').classList.add('active')
         $.post('/cart/add.js', {
           items: [{
             "quantity": 1,
             "id": id
           }, ]
-        }).then((_) => {
-          window.location.pathname = '/cart'
+        }).then((res) => {
+          this.cart.items.push(JSON.parse(res).items[0])
+        
 
         })
       }
